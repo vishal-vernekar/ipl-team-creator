@@ -1,36 +1,36 @@
 CREATE TABLE team (
-    id int,
-    name varchar(255),
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) UNIQUE,
     gender varchar(255),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE people (
-    id int,
-    name varchar(255),
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) UNIQUE,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE player (
-    id int,
-    name varchar(255),
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) UNIQUE,
     gender varchar(255),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE ground (
-    id int,
-    venue varchar(255),
+    id int NOT NULL AUTO_INCREMENT,
+    venue varchar(255) UNIQUE,
     city varchar(255),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE game (
-    id int,
+    id int NOT NULL AUTO_INCREMENT,
     season varchar(255),
     date varchar(255),
     competition varchar(255),
-    ground_id int,
+    ground int,
     team1 int,
     team2 int,
     toss_winner int,
@@ -44,7 +44,7 @@ CREATE TABLE game (
     winner int,
     winner_runs int,
     PRIMARY KEY (id),
-    FOREIGN KEY (ground_id) REFERENCES ground(id),
+    FOREIGN KEY (ground) REFERENCES ground(id),
     FOREIGN KEY (team1) REFERENCES team(id),
     FOREIGN KEY (team2) REFERENCES team(id),
     FOREIGN KEY (toss_winner) REFERENCES team(id),
@@ -58,12 +58,13 @@ CREATE TABLE game (
 );
 
 CREATE TABLE ball (
-    id int,
+    id int NOT NULL AUTO_INCREMENT,
     over int,
     ball int,
     game int,
     strike int,
     nonstrike int,
+    bowler int,
     runs int,
     extras int,
     PRIMARY KEY (id),
@@ -74,7 +75,7 @@ CREATE TABLE ball (
 );
 
 CREATE TABLE wicket (
-    id int,
+    id int NOT NULL AUTO_INCREMENT,
     ball_id int,
     player_out int,
     method_out varchar(255),
@@ -84,7 +85,7 @@ CREATE TABLE wicket (
 );
 
 CREATE TABLE position (
-    id int,
+    id int NOT NULL AUTO_INCREMENT,
     player_id int,
     game_id int,
     position int,
