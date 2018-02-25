@@ -1,23 +1,39 @@
 import pandas as pd
 import db_logic as dblogic
 
-# Iterate over files in directory
+# TODO: Iterate over files in directory
 file = "test.csv"
 
-data = pd.read_csv(file, names=['key', 'type', 'ball', 'strike_team', 'strike', 'nonstrike', 'bowler', 'runs', 'extras', 'out_type', 'out_who'])
+df = pd.read_csv(file, names=['key', 'type', 'ball', 'strike_team', 'strike', 'nonstrike', 'bowler', 'runs', 'extras', 'out_type', 'out_who'])
 
-#Insert Team Data
-teams = data.loc[(data.key == 'info') & (data.type == 'team')]
-gender = data.loc[(data.key == 'info') & (data.type == 'gender')].ball.iloc[0]
+teams = df.loc[(df.key == 'info') & (df.type == 'team')]
+gender = df.loc[(df.key == 'info') & (df.type == 'gender')].ball.iloc[0]
+people = df.loc[(df.key == 'info') & ((df.type == 'umpire') | (df.type == 'tv_umpire') | (df.type == 'match_referee'))]
+players = pd.unique(df.loc[df.key == 'ball'].loc[:, 'strike':'bowler'].values.ravel())
+venue = df.loc[(df.key == 'info') & (df.type == 'venue')].ball.iloc[0]
+city = df.loc[(df.key == 'info') & (df.type == 'city')].ball.iloc[0]
 
 for row in teams.itertuples():
     dblogic.insert_team(row.ball, gender)
 
-# dblogic.insert_people()
-# dblogic.insert_players()
-#
-# teams = dblogic.get_teams()
-# people = dblogic.get_people()
-# players = dblogic.get_players()
+for row in people.itertuples():
+    dblogic.insert_people(row.ball)
+
+for item in players:
+    dblogic.insert_players(item)
+
+dblogic.insert_ground(venue, city)
+
+season = df.loc[(df.key == 'info') & (df.type == 'season')].ball.iloc[0]
+date = df.loc[(df.key == 'info') & (df.type == 'date')].ball.iloc[0]
+competition = df.loc[(df.key == 'info') & (df.type == 'competition')].ball.iloc[0]
+
+grounds = dblogic.get_grounds()
+teams = dblogic.get_teams()
+players = dblogic.get_players()
+people = dblogic.get_people()
+
+#game_id = dblogic.insert_game(season, date, competition, grounds[])
+
 # dblogic.insert_game()
 # dblogic.insert_balls()
