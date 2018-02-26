@@ -167,12 +167,14 @@ def main():
 
     directory = "C:\\Users\\visha\\Desktop\\ipl_csv"
     #directory = "."
+    counter = 0
     for filename in os.listdir(directory):
         if filename.endswith(".csv"):
-            log.info("Processing file: {} ...".format(filename))
+            log.info("{} files processed. Processing file: {} ...".format(counter, filename))
             start_time = time.time()
             process_file(directory + "\\" + filename)
             log.info("Processed file: {} in {} secs".format(filename,time.time()-start_time))
+            counter += 1
 
     db.get_conn().close()
 
