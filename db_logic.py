@@ -96,12 +96,36 @@ def insert_game(season, date, competition, ground, team1, team2, toss_winner, to
     return row_id
 
 
-def insert_ball(over, ball, game, strike, nonstrike, bowler, runs, extras):
-    sql = "INSERT INTO ball(over, ball, game, strike, nonstrike, bowler, runs, extras) VALUES('{}','{}','{}','{}','{}','{}','{}','{}')".format(over, ball, game, strike, nonstrike, bowler, runs, extras)
-    print(sql)
-    return 1
+def insert_ball(ball, over, game, team, strike, nonstrike, bowler, runs, extras):
+    conn = db.get_conn()
+    cursor = conn.cursor()
+    sql = "INSERT INTO ball(ball, over, game, team, strike, nonstrike, bowler, runs, extras) VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(ball, over, game, team, strike, nonstrike, bowler, runs, extras)
+    log.debug(sql)
+    cursor.execute(sql)
+    row_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return row_id
 
 
-def insert_out():
+def insert_out(ball_id, player_out, method_out):
+    conn = db.get_conn()
+    cursor = conn.cursor()
+    sql = "INSERT INTO wicket(ball_id, player_out, method_out) VALUES('{}','{}','{}')".format(ball_id, player_out, method_out)
+    log.debug(sql)
+    cursor.execute(sql)
+    conn.commit()
+    conn.close()
+    return
+
+
+def insert_lineup(player_id, game_id, position):
+    conn = db.get_conn()
+    cursor = conn.cursor()
+    sql = "INSERT INTO lineup(player_id, game_id, position) VALUES('{}','{}','{}')".format(player_id, game_id, position)
+    log.debug(sql)
+    cursor.execute(sql)
+    conn.commit()
+    conn.close()
     return
 

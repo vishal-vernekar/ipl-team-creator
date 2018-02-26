@@ -59,9 +59,10 @@ CREATE TABLE game (
 
 CREATE TABLE ball (
     id int NOT NULL AUTO_INCREMENT,
-    over int,
     ball int,
+    over float,
     game int,
+    team int,
     strike int,
     nonstrike int,
     bowler int,
@@ -69,6 +70,7 @@ CREATE TABLE ball (
     extras int,
     PRIMARY KEY (id),
     FOREIGN KEY (game) REFERENCES game(id),
+    FOREIGN KEY (team) REFERENCES team(id),
     FOREIGN KEY (strike) REFERENCES player(id),
     FOREIGN KEY (nonstrike) REFERENCES player(id),
     FOREIGN KEY (bowler) REFERENCES player(id)
