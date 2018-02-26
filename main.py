@@ -2,6 +2,8 @@ import pandas as pd
 import db_logic as dblogic
 import logging as log
 import os
+import db
+import time
 
 
 def process_file(file):
@@ -111,12 +113,17 @@ def process_file(file):
 def main():
     log.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=log.INFO)
 
-#    directory = "C:\\Users\\visha\\Desktop\\ipl_csv"
-    directory = "."
+    directory = "C:\\Users\\visha\\Desktop\\ipl_csv"
+#    directory = "."
     for filename in os.listdir(directory):
         if filename.endswith(".csv"):
-            log.info("Processing file: {}".format(filename))
+            log.info("Processing file: {} ...".format(filename))
+            start_time = time.time()
             process_file(directory + "\\" + filename)
+            log.info("Processed file: {} in {} secs".format(filename,time.time()-start_time))
+
+
+    db.get_conn().close()
 
 
 

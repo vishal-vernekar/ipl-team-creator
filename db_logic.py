@@ -1,4 +1,4 @@
-import db_conn as db
+import db
 import pandas as pd
 import logging as log
 
@@ -10,7 +10,6 @@ def insert_team(name, gender):
     log.debug(sql)
     cursor.execute(sql)
     conn.commit()
-    conn.close()
     return
 
 
@@ -21,7 +20,6 @@ def insert_people(name):
     log.debug(sql)
     cursor.execute(sql)
     conn.commit()
-    conn.close()
     return
 
 
@@ -32,7 +30,6 @@ def insert_players(name):
     log.debug(sql)
     cursor.execute(sql)
     conn.commit()
-    conn.close()
     return
 
 
@@ -43,7 +40,6 @@ def insert_ground(venue, city):
     log.debug(sql)
     cursor.execute(sql)
     conn.commit()
-    conn.close()
     return
 
 
@@ -52,7 +48,6 @@ def get_people():
     sql = "SELECT id, name from people"
     log.debug(sql)
     df = pd.read_sql_query(sql, conn)
-    conn.close()
     return df
 
 
@@ -61,7 +56,6 @@ def get_teams():
     sql = "SELECT id, name from team"
     log.debug(sql)
     df = pd.read_sql_query(sql, conn)
-    conn.close()
     return df
 
 
@@ -70,7 +64,6 @@ def get_players():
     sql = "SELECT id, name from player"
     log.debug(sql)
     df = pd.read_sql_query(sql, conn)
-    conn.close()
     return df
 
 
@@ -79,7 +72,6 @@ def get_grounds():
     sql = "SELECT id, venue from ground"
     log.debug(sql)
     df = pd.read_sql_query(sql, conn)
-    conn.close()
     return df
 
 
@@ -91,11 +83,10 @@ def insert_game(season, date, competition, ground, team1, team2, toss_winner, to
             season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match)
     else:
         sql = "INSERT INTO game(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, winner) VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, winner)
-    log.info(sql)
+    log.debug(sql)
     cursor.execute(sql)
     row_id = cursor.lastrowid
     conn.commit()
-    conn.close()
     return row_id
 
 
@@ -107,7 +98,6 @@ def insert_ball(ball, over, game, team, strike, nonstrike, bowler, runs, extras)
     cursor.execute(sql)
     row_id = cursor.lastrowid
     conn.commit()
-    conn.close()
     return row_id
 
 
@@ -118,7 +108,6 @@ def insert_out(ball_id, player_out, method_out):
     log.debug(sql)
     cursor.execute(sql)
     conn.commit()
-    conn.close()
     return
 
 
@@ -129,6 +118,5 @@ def insert_lineup(player_id, game_id, position):
     log.debug(sql)
     cursor.execute(sql)
     conn.commit()
-    conn.close()
     return
 
