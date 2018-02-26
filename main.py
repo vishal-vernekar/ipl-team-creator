@@ -12,7 +12,7 @@ def process_file(file):
     balls = df.loc[df.key == "ball"]
 
     teams = info.loc[info.type == 'team']
-    people = info.loc[(info.type == 'umpire') | (info.type == 'tv_umpire') | (info.type == 'match_referee') | (info.type == 'reserve_umpire')]
+#    people = info.loc[(info.type == 'umpire') | (info.type == 'tv_umpire') | (info.type == 'match_referee') | (info.type == 'reserve_umpire')]
     gender = info.loc[info.type == 'gender'].ball.iloc[0]
 
     venue = info.loc[info.type == 'venue'].ball.iloc[0]
@@ -23,8 +23,8 @@ def process_file(file):
     for row in teams.itertuples():
         dblogic.insert_team(row.ball, gender)
 
-    for row in people.itertuples():
-        dblogic.insert_people(row.ball)
+#    for row in people.itertuples():
+#        dblogic.insert_people(row.ball)
 
     for item in players:
         dblogic.insert_players(item)
@@ -37,17 +37,21 @@ def process_file(file):
     toss_winner = info.loc[info.type == 'toss_winner'].ball.iloc[0]
     toss_decision = info.loc[info.type == 'toss_decision'].ball.iloc[0]
     player_match = info.loc[info.type == 'player_of_match'].ball.iloc[0]
-    umpire = info.loc[info.type == 'umpire']
-    reserve_umpire = info.loc[info.type == 'reserve_umpire'].ball.iloc[0]
-    tv_umpire = info.loc[info.type == 'tv_umpire'].ball.iloc[0]
-    match_referee = info.loc[info.type == 'match_referee'].ball.iloc[0]
-    winner = info.loc[info.type == 'winner'].ball.iloc[0]
-    winner_runs = info.loc[info.type == 'winner_runs'].ball.iloc[0]
+#    umpire = info.loc[info.type == 'umpire']
+#    reserve_umpire = info.loc[info.type == 'reserve_umpire'].ball.iloc[0]
+#    tv_umpire = info.loc[info.type == 'tv_umpire'].ball.iloc[0]
+#    match_referee = info.loc[info.type == 'match_referee'].ball.iloc[0]
 
     ground_ids = dblogic.get_grounds()
     team_ids = dblogic.get_teams()
     player_ids = dblogic.get_players()
-    people_ids = dblogic.get_people()
+#    people_ids = dblogic.get_people()
+
+    if not info.loc[info.type == 'winner'].empty:
+        winner = info.loc[info.type == 'winner'].ball.iloc[0]
+        winner_id = team_ids.loc[team_ids.name == winner].id.iloc[0]
+    else:
+        winner_id = ""
 
     game_id = dblogic.insert_game(
         season,
@@ -59,13 +63,12 @@ def process_file(file):
         team_ids.loc[team_ids.name == toss_winner].id.iloc[0],
         toss_decision,
         player_ids.loc[player_ids.name == player_match].id.iloc[0],
-        people_ids.loc[people_ids.name == umpire.iloc[0].ball].id.iloc[0],
-        people_ids.loc[people_ids.name == umpire.iloc[1].ball].id.iloc[0],
-        people_ids.loc[people_ids.name == reserve_umpire].id.iloc[0],
-        people_ids.loc[people_ids.name == tv_umpire].id.iloc[0],
-        people_ids.loc[people_ids.name == match_referee].id.iloc[0],
-        team_ids.loc[team_ids.name == winner].id.iloc[0],
-        winner_runs
+#        people_ids.loc[people_ids.name == umpire.iloc[0].ball].id.iloc[0],
+#        people_ids.loc[people_ids.name == umpire.iloc[1].ball].id.iloc[0],
+#        people_ids.loc[people_ids.name == reserve_umpire].id.iloc[0],
+#        people_ids.loc[people_ids.name == tv_umpire].id.iloc[0],
+#        people_ids.loc[people_ids.name == match_referee].id.iloc[0],
+        winner_id
     )
 
     ball_no = 0
@@ -108,9 +111,13 @@ def process_file(file):
 def main():
     log.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=log.INFO)
 
-    for filename in os.listdir("."):
+#    directory = "C:\\Users\\visha\\Desktop\\ipl_csv"
+    directory = "."
+    for filename in os.listdir(directory):
         if filename.endswith(".csv"):
-            process_file(filename)
+            log.info("Processing file: {}".format(filename))
+            process_file(directory + "\\" + filename)
+
 
 
 if __name__ == '__main__':

@@ -83,12 +83,15 @@ def get_grounds():
     return df
 
 
-def insert_game(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, umpire1,
-                umpire2, reserve_umpire, tv_umpire, match_referee, winner, winner_runs):
+def insert_game(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, winner):
     conn = db.get_conn()
     cursor = conn.cursor()
-    sql = "INSERT INTO game(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, umpire1, umpire2, reserve_umpire, tv_umpire, match_referee, winner, winner_runs) VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, umpire1, umpire2, reserve_umpire, tv_umpire, match_referee, winner, winner_runs)
-    log.debug(sql)
+    if winner == '':
+        sql = "INSERT INTO game(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match) VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(
+            season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match)
+    else:
+        sql = "INSERT INTO game(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, winner) VALUES('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(season, date, competition, ground, team1, team2, toss_winner, toss_decision, player_match, winner)
+    log.info(sql)
     cursor.execute(sql)
     row_id = cursor.lastrowid
     conn.commit()

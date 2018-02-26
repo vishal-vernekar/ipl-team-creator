@@ -5,11 +5,11 @@ CREATE TABLE team (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE people (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(255) UNIQUE,
-    PRIMARY KEY (id)
-);
+-- CREATE TABLE people (
+--    id int NOT NULL AUTO_INCREMENT,
+--    name varchar(255) UNIQUE,
+--    PRIMARY KEY (id)
+-- );
 
 CREATE TABLE player (
     id int NOT NULL AUTO_INCREMENT,
@@ -36,24 +36,23 @@ CREATE TABLE game (
     toss_winner int,
     toss_decision varchar(255),
     player_match int,
-    umpire1 int,
-    umpire2 int,
-    reserve_umpire int,
-    tv_umpire int,
-    match_referee int,
+--    umpire1 int,
+--    umpire2 int,
+--    reserve_umpire int,
+--    tv_umpire int,
+--    match_referee int,
     winner int,
-    winner_runs int,
     PRIMARY KEY (id),
     FOREIGN KEY (ground) REFERENCES ground(id),
     FOREIGN KEY (team1) REFERENCES team(id),
     FOREIGN KEY (team2) REFERENCES team(id),
     FOREIGN KEY (toss_winner) REFERENCES team(id),
     FOREIGN KEY (player_match) REFERENCES player(id),
-    FOREIGN KEY (umpire1) REFERENCES people(id),
-    FOREIGN KEY (umpire2) REFERENCES people(id),
-    FOREIGN KEY (reserve_umpire) REFERENCES people(id),
-    FOREIGN KEY (tv_umpire) REFERENCES people(id),
-    FOREIGN KEY (match_referee) REFERENCES people(id),
+--    FOREIGN KEY (umpire1) REFERENCES people(id),
+--    FOREIGN KEY (umpire2) REFERENCES people(id),
+--    FOREIGN KEY (reserve_umpire) REFERENCES people(id),
+--    FOREIGN KEY (tv_umpire) REFERENCES people(id),
+--    FOREIGN KEY (match_referee) REFERENCES people(id),
     FOREIGN KEY (winner) REFERENCES team(id)
 );
 
@@ -86,7 +85,7 @@ CREATE TABLE wicket (
     FOREIGN KEY (player_out) REFERENCES player(id)
 );
 
-CREATE TABLE position (
+CREATE TABLE lineup (
     id int NOT NULL AUTO_INCREMENT,
     player_id int,
     game_id int,

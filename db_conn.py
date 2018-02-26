@@ -1,11 +1,13 @@
 import pymysql
 
 
+the_database_connection = False
+
 def get_conn():
     db = pymysql.connect(host="localhost",    # your host, usually localhost
                          user="root",         # your username
                          passwd="maggie",  # your password
-                         db="ipl")        # name of the data base
+                         db="ipl_live")        # name of the data base
     return db
 
 # cur = db.cursor()
