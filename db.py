@@ -10,7 +10,7 @@ def get_conn():
             host="localhost",   # your host, usually localhost
             user="root",        # your username
             passwd="maggie",    # your password
-            db="ipl_live"       # name of the data base
+            db="ipl_final"       # name of the data base
         )
     return _connection
 

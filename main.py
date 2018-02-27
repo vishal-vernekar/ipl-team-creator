@@ -170,10 +170,10 @@ def main():
     counter = 0
     for filename in os.listdir(directory):
         if filename.endswith(".csv"):
-            log.info("{} files processed. Processing file: {} ...".format(counter, filename))
+            log.info("Processed {} files. Processing file: {} ...".format(counter, filename))
             start_time = time.time()
             process_file(directory + "\\" + filename)
-            log.info("Processed file: {} in {} secs".format(filename,time.time()-start_time))
+            log.info("Processed file: {} in {} secs".format(filename, time.time()-start_time))
             counter += 1
 
     db.get_conn().close()
