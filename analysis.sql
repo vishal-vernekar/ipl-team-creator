@@ -13,6 +13,7 @@ CREATE TABLE player_stats (
 	late int,
 	total_games_strike int,
 	runs_given int,
+	extras_given int,
 	wickets_taken int,
 	balls_bowled int
 );
@@ -127,7 +128,7 @@ SET
 UPDATE
 	player_stats
 SET
-    total_balls_bowled = (
+    balls_bowled = (
 		SELECT
             COUNT(*)
         FROM
