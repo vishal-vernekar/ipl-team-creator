@@ -94,3 +94,7 @@ CREATE TABLE lineup (
     FOREIGN KEY (player_id) REFERENCES player(id),
     FOREIGN KEY (game_id) REFERENCES game(id)
 );
+
+CREATE INDEX batsmen_id ON ball(strike);
+
+CREATE INDEX bowler_id ON ball(bowler);
